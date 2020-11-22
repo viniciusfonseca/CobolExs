@@ -22,7 +22,7 @@
             FD CADCLI
                LABEL RECORD IS STANDARD
                VALUE OF FILE-ID IS "CADCLI.DAT".
-            01 REGCLI
+            01 IREGCLI.
                02 CPF-CLI  PIC 9(11).
                02 NOME-CLI PIC X(30).
                02 EST-CLI  PIC X(02).
@@ -37,8 +37,9 @@
             01 REGCLI PIC X(80).               
 
         WORKING-STORAGE SECTION.
-        77 FIM-ARQ PIC X(03) VALUE "NAO".
-        77 CT-LIN  PIC 99    VALUE    21.
+        77 FIM-ARQ PIC X(03) VALUE  "NAO".
+        77 CT-LIN  PIC 99    VALUE     26.
+        77 CT-PAG  PIC 99    VALUE ZEROES.
 
         01 CAB-01.
            02 FILLER  PIC X(73) VALUE  SPACES.
@@ -69,9 +70,11 @@
            02 FILLER PIC X(02) VALUE     SPACES.
            02 FILLER PIC X(31) VALUE     SPACES.
 
-        
         01 CAB-05.
            02 FILLER PIC X(80) VALUE ALL "-".
+
+        01 CAB-06.
+           02 FILLER PIC X(80) VALUE SPACES.
 
         01 DETALHE.
            02 RELNOM PIC X(30).
@@ -87,6 +90,7 @@
         01 ROD-01.
            02 FILLER PIC X(19) VALUE "TOTAL DE CLIENTES: ".
            02 TOTCLI PIC 9999  VALUE ZEROES.
+           02 FILLER PIC X(57) VALUE SPACES.
 
         PROCEDURE DIVISION.
         PGM.
@@ -108,7 +112,7 @@
             PERFORM LEITURA.
 
         IMPRESSAO.
-            IF CT-LIN GREATER THAN 20
+            IF CT-LIN GREATER THAN 25
                 PERFORM CABECALHO.
             PERFORM IMPDET.
         
@@ -119,11 +123,12 @@
             MOVE CT-PAG TO PAG-OUT.
             
             WRITE REGCLI             AFTER ADVANCING   PAGE .
-            WRITE REGCLI FROM CAB-01 AFTER ADVANCING 1 LINE .
+            WRITE REGCLI FROM CAB-01 AFTER ADVANCING 2 LINES.
             WRITE REGCLI FROM CAB-02 AFTER ADVANCING 1 LINE .
             WRITE REGCLI FROM CAB-03 AFTER ADVANCING 1 LINE .
             WRITE REGCLI FROM CAB-04 AFTER ADVANCING 1 LINE .
             WRITE REGCLI FROM CAB-05 AFTER ADVANCING 1 LINE .
+            WRITE REGCLI FROM CAB-06 AFTER ADVANCING 1 LINE .
 
         IMPDET.
             MOVE NOME-CLI TO RELNOM.
@@ -132,9 +137,14 @@
             MOVE TEL-E2   TO RELTEL2.
 
             ADD  1        TO TOTCLI.
+            ADD  1        TO CT-LIN.
 
             WRITE REGCLI FROM DETALHE AFTER ADVANCING 1 LINE.
 
+        RODAPE.
+            WRITE REGCLI FROM ROD-01 AFTER ADVANCING 4 LINES.
+
         TERMINO.
+            PERFORM RODAPE.
             CLOSE CADCLI
                   RELCLI.
