@@ -45,7 +45,7 @@
 
             WORKING-STORAGE SECTION.
             77 FIM-ARQ    PIC X(03)       VALUE  "NAO".
-            77 CT-LIN     PIC 99          VALUE     25.
+            77 CT-LIN     PIC 99          VALUE     31.
             77 CT-PAG     PIC 99          VALUE ZEROES.
 
             77 AUXTOT     PIC 99          VALUE ZEROES.
@@ -85,12 +85,12 @@
                02 FILLER PIC X(11) VALUE             SPACES.
 
             01 ROD-01.
-               02 FILLER PIC (27) VALUE 
+               02 FILLER PIC X(27) VALUE 
                               "TOTAL DE SOCIOS ATRASADOS: ".
-               02 AUXTOT PIC 99999.
+               02 R-AUXTOT PIC 99999.
 
             01 ROD-02.
-               02 FILLER PIC (22) VALUE
+               02 FILLER PIC X(22) VALUE
                                    "VALOR TOTAL ATRASADO: ".
                02 IMPVAL PIC ZZZ.ZZZ.ZZZ.ZZ9,99.
         
@@ -124,16 +124,18 @@
             MOVE NUMSOC1 TO NUMSOC2.
             MOVE NOMSOC1 TO NOMSOC2.
             MOVE VALPAG1 TO VALPAG2.
-            WRITE ARQSOC2.
+            WRITE CADSOC2.
 
         IMPRESSAO.
-            IF CT-LIN GREATER THAN 24
+            IF CT-LIN GREATER THAN 30
                PERFORM CABECALHO.
+            PERFORM IMPDET.
 
         CABECALHO.
             ADD 1 TO CT-PAG.
             MOVE CT-PAG TO PAG-OUT.
             MOVE SPACES TO REGSOCIO.
+            MOVE ZEROES TO AUXTOT.
             MOVE ZEROES TO CT-LIN.
 
             WRITE REGSOCIO             AFTER ADVANCING   PAGE .
@@ -144,6 +146,8 @@
         IMPDET.
             ADD   VALPAG1 TO AUXVAL.
             ADD   1       TO AUXTOT.
+            MOVE  AUXTOT  TO CT-LIN.
+            MOVE  AUXTOT  TO R-AUXTOT.
 
             MOVE  NUMSOC1 TO RELNUM.
             MOVE  NOMSOC1 TO RELNOM.
