@@ -38,6 +38,7 @@
 
         WORKING-STORAGE SECTION.
         77 FIM-ARQ PIC X(03) VALUE "NAO".
+        77 CT-LIN  PIC 99    VALUE    21.
 
         01 CAB-01.
            02 FILLER  PIC X(73) VALUE  SPACES.
@@ -107,7 +108,7 @@
             PERFORM LEITURA.
 
         IMPRESSAO.
-            IF CT-LIN GREATER THAN 24
+            IF CT-LIN GREATER THAN 20
                 PERFORM CABECALHO.
             PERFORM IMPDET.
         
