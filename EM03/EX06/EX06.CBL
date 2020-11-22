@@ -1,0 +1,58 @@
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. EM03EX06.
+        AUTHOR. VINICIUS ALVES.
+        INSTALLATION. FATEC-SP.
+        DATE-WRITTEN. 06/11/2016.
+        DATE-COMPILED.
+        SECURITY. ONLY AUTHOR MAY MODIFY.
+      * REMARKS.
+        
+        ENVIRONMENT DIVISION.
+        CONFIGURATION SECTION.
+            SOURCE-COMPUTER. IBM-PC.
+            OBJECT-COMPUTER. IBM-PC.
+            SPECIAL-NAMES.   DECIMAL-POINT IS COMMA.
+        
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT CADVEND ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT TRAB   ASSIGN TO DISK.
+            SELECT REL-PAG ASSIGN TO DISK.
+            
+        DATA DIVISION.
+        FILE SECTION.
+        
+        FD ENTRADA
+           LABEL RECORD IS STANDARD
+           VALUE OF FILE-ID IS "CADVEND.DAT".
+        01 REGENT.
+           02 CODDEPENT PIC X.
+           02 CODSECENT PIC X.
+           02 CODENT    PIC 9 (05).
+           02 NOMEENT   PIC X (20).
+           02 VENDEENT  PIC 9(07)V99.
+           02 SALENTF   PIC 9(07)V99.
+           02 DESCENT   PIC 9(05)V99.
+
+        SD TRAB.
+        01 REGENT.
+           02 CODDEPTRA PIC X.
+           02 CODSECTRA PIC X.
+           02 CODTRAB   PIC 9 (05).
+           02 NOMETRAB  PIC X (20).
+           02 VENDETRAB PIC 9(07)V99.
+           02 SALTRABF  PIC 9(07)V99.
+           02 DESCENT   PIC 9(05)V99.
+        
+        FD RELFILE.
+           02 RELREG    PIC X (80).
+
+        WORKING-STORAGE SECTION.
+        77 FIM-ARQ PIC XXX VALUE "NAO".
+
+        77 CT-LIN  PIC 99 VALUE 40.
+        77 CT-PAG  PIC 99 VALUE ZEROES.
+
+        77 MUDOUDEP PIC XXX VALUE "NAO".
+        77 MUDOUSEC PIC XXX VALUE "NAO".

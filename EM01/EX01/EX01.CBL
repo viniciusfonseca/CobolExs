@@ -1,0 +1,70 @@
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID.    EM01EX01.
+        AUTHOR.        VINICIUS ALVES.
+        INSTALLATION.  FATEC-SP.
+        DATE-WRITTEN.  21/11/2020.
+        DATE-COMPILED. 21/11/2020.
+      * REMARKS. ESTE PROGRAMA LÊ CADCLI1.DAT NO FORMATO
+      * CÓDIGO - NOME E ESCREVE CADCLI2.DAT NO FORMATO NOME - CÓDIGO,
+      * ALTERANDO ASSIM O LAYOUT DOS REGISTROS.
+
+        ENVIRONMENT DIVISION.
+            CONFIGURATION SECTION.
+            SOURCE-COMPUTER. IBM-PC.
+            OBJECT-COMPUTER. IBM-PC.
+            SPECIAL-NAMES.   DECIMAL-POINT IS COMMA.
+
+            INPUT-OUTPUT SECTION.
+            FILE-CONTROL.
+            SELECT CADCLI1 ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT CADCLI2 ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+
+        DATA DIVISION.
+            FILE SECTION.
+
+            FD CADCLI1
+               LABEL RECORD IS STANDARD
+               VALUE OF FILE-ID IS "CADCLI1.DAT".
+            01 REGCLI1.
+               02 COD-ENT  PIC 9(05).
+               02 NOME-ENT PIC X(20).
+
+            FD CADCLI2
+               LABEL RECORD IS STANDARD
+               VALUE OF FILE-ID IS "CADCLI2.DAT".
+            01 REGCLI2.
+               02 NOME-SAI PIC X(20).
+               02 COD-SAI  PIC 9(05).
+
+            WORKING-STORAGE SECTION.
+            77 FIM-ARQ PIC X(03) VALUE "NAO".
+        
+        PROCEDURE DIVISION.
+        PGM.
+            PERFORM INICIO.
+            PERFORM PRINCIPAL UNTIL FIM-ARQ EQUAL "SIM".
+            PERFORM TERMINO.
+        STOP RUN.
+
+        INICIO.
+            OPEN INPUT  CADCLI1
+                 OUTPUT CADCLI2.
+            PERFORM LEITURA.
+
+        LEITURA.
+            READ CADCLI1 AT END MOVE "SIM" TO FIM-ARQ.
+
+        GRAVACAO.
+            MOVE COD-ENT  TO COD-SAI.
+            MOVE NOME-ENT TO NOME-SAI.
+            WRITE REGCLI2.
+
+        PRINCIPAL.
+            PERFORM GRAVACAO.
+            PERFORM LEITURA.
+
+        TERMINO.
+            CLOSE CADCLI1
+                  CADCLI2.
