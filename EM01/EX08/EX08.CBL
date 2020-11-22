@@ -1,0 +1,82 @@
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID.    EM01EX08.
+        AUTHOR.        VINICIUS ALVES.
+        INSTALLATION.  FATEC-SP.
+        DATE-WRITTEN.  21/11/2020.
+        DATE-COMPILED. 21/11/2020.
+      * REMARKS. LÊ OS DADOS DOS FUNCIONÁRIOS EM CADFUN.DAT E GRAVA EM
+      * CADSAI.DAT OS SALÁRIOS COM REAJUSTE PROPORCIONAL.
+
+        ENVIRONMENT DIVISION.
+            CONFIGURATION SECTION.
+            SOURCE-COMPUTER. IBM-PC.
+            OBJECT-COMPUTER. IBM-PC.
+            SPECIAL-NAMES.   DECIMAL-POINT IS COMMA.
+
+            INPUT-OUTPUT SECTION.
+            FILE-CONTROL.
+            SELECT CADFUN ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT CADSAI ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+
+        DATA DIVISION.
+            FILE SECTION.
+
+            FD CADFUN
+               LABEL RECORD IS STANDARD
+               VALUE OF FILE-ID IS "CADFUN.DAT".
+            01 REGENT.
+               02 MAT-ENT  PIC 9(05).
+               02 NOME-ENT PIC X(20).
+               02 SAL-ENT  PIC 9(05)V99.
+
+            FD CADSAI
+               LABEL RECORD IS STANDARD
+               VALUE OF FILE-ID IS "CADSAI.DAT".
+            01 REGSAI.
+               02 MAT-SAI   PIC 9(05).
+               02 NOME-SAI  PIC X(20).
+               02 SAL-SAI   PIC 9(05)V99.
+
+            WORKING-STORAGE SECTION.
+            77 FIM-ARQ PIC X(03) VALUE "NAO".
+            77 REAJUSTE PIC 99V99 VALUE ZEROES.
+        
+        PROCEDURE DIVISION.
+        PGM.
+            PERFORM INICIO.
+            PERFORM PRINCIPAL UNTIL FIM-ARQ EQUAL "SIM".
+            PERFORM TERMINO.
+        STOP RUN.
+
+        INICIO.
+            OPEN INPUT  CADFUN
+                 OUTPUT CADSAI.
+            PERFORM LEITURA.
+
+        LEITURA.
+            READ CADFUN AT END MOVE "SIM" TO FIM-ARQ.
+
+        GRAVACAO.
+            IF SAL-ENT IS NOT GREATER THAN 1000 THEN
+               MOVE 12 TO REAJUSTE
+            ELSE IF SAL-ENT IS NOT GREATER THAN 2000 THEN
+               MOVE 11 TO REAJUSTE
+            ELSE
+               MOVE 10 TO REAJUSTE
+            END-IF.
+            MOVE MAT-ENT TO MAT-SAI.
+            MOVE NOME-ENT TO NOME-SAI.
+            DIVIDE 100 INTO REAJUSTE.
+            ADD 1 TO REAJUSTE.
+            MULTIPLY SAL-ENT BY REAJUSTE GIVING SAL-SAI.
+            WRITE REGSAI.
+
+        PRINCIPAL.
+            PERFORM GRAVACAO.
+            PERFORM LEITURA.
+
+        TERMINO.
+            CLOSE CADFUN
+                  CADSAI.

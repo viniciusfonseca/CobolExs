@@ -38,7 +38,7 @@
             01 REGSAI.
                02 MAT-SAI   PIC 9(05).
                02 NOME-SAI  PIC X(20).
-               02 SAL-SAI  PIC 9(05)V99.
+               02 SAL-SAI   PIC 9(05)V99.
 
             WORKING-STORAGE SECTION.
             77 FIM-ARQ PIC X(03) VALUE "NAO".

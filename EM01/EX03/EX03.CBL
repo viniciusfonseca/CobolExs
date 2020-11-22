@@ -60,10 +60,7 @@
 
         GRAVACAO.
             MOVE NUM-ENT TO NUM-SAI.
-            MOVE 0 TO MEDIA-SAI.
-            ADD NT1-ENT TO MEDIA-SAI.
-            ADD NT2-ENT TO MEDIA-SAI.
-            ADD NT3-ENT TO MEDIA-SAI.
+            ADD NT1-ENT NT2-ENT NT3-ENT GIVING MEDIA-SAI.
             DIVIDE 3 INTO MEDIA-SAI.
             WRITE REGATU.
 
