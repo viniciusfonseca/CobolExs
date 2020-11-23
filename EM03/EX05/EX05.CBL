@@ -23,103 +23,109 @@
         DATA DIVISION.
         FILE SECTION.
         
-        FD ENTRADA
+        FD ARQVENDA
            LABEL RECORD IS STANDARD
            VALUE OF FILE-ID IS "ARQVENDA.DAT".
         01 REGENT.
            02 ESTAEN PIC XX.
-           02 NRENT  PIC 9 (05).
-           02 NOMEEN PIC X (20).
+           02 NRENT  PIC 9(05).
+           02 NOMEEN PIC X(20).
            02 VALENT PIC 9(07)V99.
            
         SD TRAB.
         01 REGTRA.
            02 ESTATR PIC XX.
-           02 NRTRAB PIC 9 (05).
-           02 NOMETR PIC X (20).
+           02 NRTRAB PIC 9(05).
+           02 NOMETR PIC X(20).
            02 VALTRA PIC 9(07)V99.
            
-        FD RELFILE
+        FD RELVENDA
            LABEL RECORD IS OMITTED.
         01 REGREL PIC X(80).
         
         WORKING-STORAGE SECTION.
-        77 CT-LIN  PIC 99     VALUE 20.
+        77 CT-LIN  PIC 99     VALUE ZEROES.
         77 CT-PAG  PIC 99     VALUE ZEROES.
         77 FIM-ARQ PIC XXX    VALUE "NAO".
 
         77 PREVEST PIC XX     VALUE SPACES.
         77 MUDOULU PIC XXX    VALUE "NAO".
 
-        77 PREVNR  PIC 9 (05).
+        77 PREVNR  PIC 9(05).
         77 MUDOUNR PIC XXX    VALUE "NAO".
+
+        77 AUXTOTVEN PIC 9(07)V99 VALUE ZEROES.
+        77 AUXTOTEST PIC 9(07)V99 VALUE ZEROES.
+        77 AUXTOTCOM PIC 9(07)V99 VALUE ZEROES.
         
         01 CAB-01.
-           02 FILLER PIC X (19) VALUE SPACES.
-           02 FILLER PIC X (17) VALUE "VENDAS TOTAIS POR". 
-           02 FILLER PIC X (18) VALUE " ESTADO - VENDEDOR".
-           02 FILLER PIC X (18) VALUE SPACES.
-           02 FILLER PIC X (05) VALUE "PAG. ".
-           02 PAG-OU PIC ZZ9    VALUE ZEROES.
+           02 FILLER PIC X(19) VALUE SPACES.
+           02 FILLER PIC X(17) VALUE "VENDAS TOTAIS POR". 
+           02 FILLER PIC X(18) VALUE " ESTADO - VENDEDOR".
+           02 FILLER PIC X(18) VALUE SPACES.
+           02 FILLER PIC X(05) VALUE "PAG. ".
+           02 PAG-OU PIC ZZ9   VALUE ZEROES.
 
         01 CAB-02.
-           02 FILLER PIC X (08) VALUE "ESTADO: ".
-           02 RELEST PIC X (30) VALUE SPACES.
-           02 FILLER PIC X (42) VALUE SPACES.
+           02 FILLER PIC X(08) VALUE "ESTADO: ".
+           02 RELEST PIC X(30) VALUE SPACES.
+           02 FILLER PIC X(42) VALUE SPACES.
 
         01 CAB-03.
-           02 FILLER PIC XX     VALUE SPACES.
-           02 FILLER PIC X (15) VALUE "NRO DO VENDEDOR".
-           02 FILLER PIC XX     VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
+           02 FILLER PIC X(15) VALUE "NRO DO VENDEDOR".
+           02 FILLER PIC XX    VALUE SPACES.
 
-           02 FILLER PIC XX     VALUE SPACES.
-           02 FILLER PIC X (16) VALUE "NOME DO VENDEDOR".
-           02 FILLER PIC X (04) VALUE SPACES.
-           02 FILLER PIC XX     VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
+           02 FILLER PIC X(16) VALUE "NOME DO VENDEDOR".
+           02 FILLER PIC X(04) VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
 
-           02 FILLER PIC XX     VALUE SPACES.
-           02 FILLER PIC X (14) VALUE "VALOR DA VENDA".
-           02 FILLER PIC XX     VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
+           02 FILLER PIC X(14) VALUE "VALOR DA VENDA".
+           02 FILLER PIC XX    VALUE SPACES.
+
+        01 CAB-SPACES.
+           02 FILLER PIC X(80) VALUE SPACES.
 
         01 DETALHE.
-           02 FILLER PIC XX     VALUE SPACES.
-           02 NRRELA PIC X (05).
-           02 FILLER PIC X (10) VALUE SPACES.
-           02 FILLER PIC XX     VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
+           02 NRRELA PIC X(05).
+           02 FILLER PIC X(10) VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
 
-           02 FILLER PIC XX     VALUE SPACES.
-           02 NOMERE PIC X (20) VALUE SPACES.
-           02 FILLER PIC XX     VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
+           02 NOMERE PIC X(20) VALUE SPACES.
+           02 FILLER PIC XX    VALUE SPACES.
 
-           02 FILLER PIC XX       VALUE SPACES.
-           02 VALREL PIC 9(07)V99 VALUE SPACES.
-           02 FILLER PIC XX       VALUE SPACES.
+           02 FILLER PIC XX            VALUE SPACES.
+           02 VALREL PIC ZZ.ZZZ.ZZ9,99 VALUE ZEROES.
+           02 FILLER PIC XX            VALUE SPACES.
 
-           02 FILLER PIC X (23)   VALUE SPACES.
+           02 FILLER PIC X(20)   VALUE SPACES.
 
         01 FIMVENDEDOR.
-           02 FILLER PIC X (51)   VALUE SPACES.
-           02 FILLER PIC X (19)   VALUE "TOTAL DO VENDEDOR: ".
-           02 TOTVEN PIC 9(07)V99 VALUE ZEROES.
+           02 FILLER PIC X(48)    VALUE SPACES.
+           02 FILLER PIC X(19)    VALUE "TOTAL DO VENDEDOR: ".
+           02 TOTVEN PIC ZZ.ZZZ.ZZ9,99 VALUE ZEROES.
            
         01 FIMESTADO.
-           02 FILLER PIC X (53)   VALUE SPACES.
-           02 FILLER PIC X (17)   VALUE "TOTAL DO ESTADO: ".
-           02 TOTEST PIC 9(07)V99 VALUE ZEROES.
+           02 FILLER PIC X(50)    VALUE SPACES.
+           02 FILLER PIC X(17)    VALUE "TOTAL DO ESTADO: ".
+           02 TOTEST PIC ZZ.ZZZ.ZZ9,99 VALUE ZEROES.
 
         01 FIMRELATR.
-           02 FILLER PIC X (50)   VALUE SPACES.
-           02 FILLER PIC X (20)   VALUE "TOTAL DA COMPANHIA: ".
-           02 TOTCOM PIC 9(07)V99 VALUE ZEROES.
+           02 FILLER PIC X(47)    VALUE SPACES.
+           02 FILLER PIC X(20)    VALUE "TOTAL DA COMPANHIA: ".
+           02 TOTCOM PIC ZZ.ZZZ.ZZ9,99 VALUE ZEROES.
 
         PROCEDURE DIVISION.
 
         PGM.
             SORT TRAB
-                 ASCENDING KEY ESTAEN
-                               CIDAEN
-                               NOMEEN
-                 USING ENTRADA
+                 ASCENDING KEY ESTATR
+                               NRTRAB
+                 USING ARQVENDA
                  OUTPUT PROCEDURE ROTSAIDA        
         STOP RUN.
 
@@ -129,7 +135,7 @@
             PERFORM TERMINO.
 
         INICIO SECTION.
-            OPEN OUTPUT RELFILE.
+            OPEN OUTPUT RELVENDA.
             PERFORM LEITURA.
 
         LEITURA SECTION.
@@ -142,8 +148,8 @@
         VERIFICALU SECTION.
             MOVE "NAO" TO MUDOULU.
             IF PREVEST NOT EQUAL ESTATR THEN
-                MOVE ESTATR TO PREVEST.
-                MOVE "SIM"  TO MUDOULU.
+                MOVE ESTATR TO PREVEST
+                MOVE "SIM"  TO MUDOULU
             END-IF.
 
         CABECALHO SECTION.
@@ -153,23 +159,28 @@
 
             MOVE  ZEROES  TO   TOTEST.
 
-            PERFORM ATRUBUIEST.
+            PERFORM ATRIBUIEST.
 
             WRITE REGREL              AFTER ADVANCING   PAGE .
             WRITE REGREL  FROM CAB-01 AFTER ADVANCING 1 LINE .
             WRITE REGREL  FROM CAB-02 AFTER ADVANCING 2 LINES.
             WRITE REGREL  FROM CAB-03 AFTER ADVANCING 2 LINES.
+            WRITE REGREL  FROM CAB-SPACES AFTER ADVANCING 1 LINE.
 
             MOVE  ZEROES  TO   CT-LIN.
 
         IMPRESSAO SECTION.
+
+            IF CT-LIN GREATER THAN 19
+                PERFORM CABECALHO.
+            
             PERFORM VERIFICALU.
-            IF CT-LIN GREATER THAN 19 OR MUDOULU EQUAL "SIM"
-            THEN
-                IF CT-PAG GREATER THAN ZEROES THEN
-                    PERFORM IMPEST
+
+            IF MUDOULU EQUAL "SIM"
+                PERFORM IMPEST
                 PERFORM CABECALHO
             END-IF.
+
             PERFORM IMPDET.
 
         COPIAVAR SECTION.
@@ -178,34 +189,45 @@
             MOVE VALTRA TO VALREL. 
 
         CONTABIL SECTION.
-            ADD  VALTRA TO TOTVEN.
-            ADD  VALTRA TO TOTEST.
-            ADD  VALTRA TO TOTCOM.
+            ADD  VALTRA TO AUXTOTVEN.
+            ADD  VALTRA TO AUXTOTEST.
+            ADD  VALTRA TO AUXTOTCOM.
 
         IMPDET SECTION.
             PERFORM COPIAVAR.
-            PERFORM CONTABIL.
             PERFORM VERIFICANR.
+            PERFORM CONTABIL.
             IF MUDOUNR NOT EQUAL "SIM" THEN
                 MOVE SPACES TO NRRELA
                 MOVE SPACES TO NOMERE
             END-IF.
             WRITE REGREL FROM DETALHE AFTER ADVANCING 1 LINE.
-            IF MUDOUNR EQUAL "SIM" THEN
-                PERFORM IMPVENDEDOR.
             ADD 1 TO CT-LIN.
 
         VERIFICANR SECTION.
             MOVE "NAO" TO MUDOUNR.
             IF PREVNR NOT EQUAL NRTRAB THEN
-                MOVE "SIM" TO MUDOUNR.
+                PERFORM IMPVENDEDOR
+                MOVE NRTRAB TO PREVNR
+                MOVE "SIM"  TO MUDOUNR
+                MOVE ZEROES TO AUXTOTVEN
+            END-IF.
 
         IMPVENDEDOR SECTION.
+            IF PREVNR NOT NUMERIC OR PREVNR EQUAL ZEROES THEN
+               EXIT SECTION.
+            IF AUXTOTVEN EQUAL ZEROES THEN EXIT SECTION.
+            DISPLAY "AUXTOTVEN:" AUXTOTVEN.
+            MOVE AUXTOTVEN TO TOTVEN.
             WRITE REGREL  FROM  FIMVENDEDOR
                           AFTER ADVANCING 2 LINES.
-            MOVE ZEROES TO TOTVEN.
+            WRITE REGREL  FROM CAB-SPACES AFTER ADVANCING 1 LINE.
+            MOVE ZEROES TO AUXTOTVEN.
 
         IMPEST SECTION.
+            IF AUXTOTEST EQUAL ZEROES THEN EXIT SECTION.
+            PERFORM IMPVENDEDOR.
+            MOVE AUXTOTEST TO TOTEST.
             WRITE REGREL  FROM  FIMESTADO 
                           AFTER ADVANCING 2 LINES.
             MOVE ZEROES TO TOTEST.
@@ -265,9 +287,12 @@
                 MOVE "TOCANTINS"           TO RELEST.
 
         IMPROD SECTION.
+            MOVE AUXTOTCOM TO TOTCOM.
             WRITE REGREL  FROM  FIMRELATR 
                           AFTER ADVANCING 2 LINES.
 
         TERMINO SECTION.
+            PERFORM IMPVENDEDOR.
+            PERFORM IMPEST.
             PERFORM IMPROD.
-            CLOSE OUTPUT.
+            CLOSE RELVENDA.
