@@ -1,0 +1,47 @@
+                                                                                
+DATA: 02/10/2016      RELATORIO DE MATERIAL EM ESTOQUE                   PAG.  1
+
+CODIGO  NOME             QTDE DO ESTOQUE  CUSTO UNITARIO  CUSTO TOTAL           
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00                                                                                          
+DATA: 02/10/2016      RELATORIO DE MATERIAL EM ESTOQUE                   PAG.  2
+
+CODIGO  NOME             QTDE DO ESTOQUE  CUSTO UNITARIO  CUSTO TOTAL           
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00          
+11111   TAMBOR           10.000              . 40,00        400.000,00          
+22222   ROLAMENTO        20.000              . 15,00        300.000,00          
+33333   DISCO DE FREIO    5.000              . 20,00        100.000,00          
+44444   PASTILHA          3.000              . 60,00        180.000,00                                                                                          
+DATA: 02/10/2016      RELATORIO DE MATERIAL EM ESTOQUE                   PAG.  3
+
+QUANTIDADE TOTAL  PRECO MEDIO  PRECO TOTAL                                      
+   42.000              19,52      820.000,00                                    
