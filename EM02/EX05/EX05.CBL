@@ -57,7 +57,7 @@
 
             WORKING-STORAGE SECTION.
             77 FIM-ARQ PIC X(03) VALUE  "NAO".
-            77 CT-LIN  PIC 9(02) VALUE     25.
+            77 CT-LIN  PIC 9(02) VALUE     30.
             77 CT-PAG  PIC 9(02) VALUE ZEROES.
 
             77 MEDAUX  PIC 9(02)V9(02) VALUE ZEROES.
@@ -163,7 +163,7 @@
             WRITE REGREP.
 
         IMPRESSAO.
-            IF CT-LIN GREATER THAN 24
+            IF CT-LIN GREATER THAN 29
                 PERFORM CABECALHO.
             PERFORM IMPDET.
 
@@ -175,6 +175,7 @@
             MOVE FALTAS-E TO FALTAPR.
 
             WRITE REGAPROV FROM DETALHE AFTER ADVANCING 1 LINE .
+            ADD 1 TO CT-LIN.
             ADD 1 TO TOTAPR.
 
         CABECALHO.
