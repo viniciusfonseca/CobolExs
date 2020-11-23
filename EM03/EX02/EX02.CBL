@@ -27,32 +27,32 @@
                LABEL RECORD IS STANDARD
                VALUE OF FILE-ID IS "CADENT.DAT".
             01 REGENT.
-               02 COD-ENT PIC 9 (05).
-               02 NOM-ENT PIC X (30).
+               02 COD-ENT PIC 9(05).
+               02 NOM-ENT PIC X(30).
                02 SEX-ENT PIC X.
                
             SD TRAB.
             01 REGTRAB.
-               02 COD-TRAB PIC 9 (05).
-               02 NOM-TRAB PIC X (30).
+               02 COD-TRAB PIC 9(05).
+               02 NOM-TRAB PIC X(30).
                02 SEX-TRAB PIC X.
                
             FD CADSAI
                LABEL RECORD IS STANDARD
                VALUE OF FILE-ID IS "CADSAI.DAT".
-            01 REGTRAB.
-               02 COD-TRAB PIC 9 (05).
-               02 NOM-TRAB PIC X (30).
+            01 REGSAI.
+               02 COD-SAI PIC 9(05).
+               02 NOM-SAI PIC X(30).
                
         WORKING-STORAGE SECTION.
-        77  FIM-ARQ        PIC X (03) VALUE "NAO".
+        77  FIM-ARQ        PIC X(03) VALUE "NAO".
         
         PROCEDURE DIVISION.
         PGM.
             SORT TRAB
-                 DESCENDING KEY  COD-ENT
+                 DESCENDING KEY  COD-TRAB
                  INPUT PROCEDURE ROT-ENTRADA
-                 GIVING          SAIDA.
+                 GIVING          CADSAI.
         STOP RUN.
         
         ROT-ENTRADA SECTION.
@@ -62,7 +62,7 @@
             PERFORM FIM-ENTRADA.
             
         INICIO-ENTRADA SECTION.
-            OPEN INPUT ENTRADA.
+            OPEN INPUT CADENT.
             PERFORM LEITURA-ENTRADA.
             
         LEITURA-ENTRADA SECTION.
