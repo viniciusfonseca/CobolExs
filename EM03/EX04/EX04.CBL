@@ -23,7 +23,7 @@
         DATA DIVISION.
         FILE SECTION.
         
-        FD ENTRADA
+        FD CADCLI
            LABEL RECORD IS STANDARD
            VALUE OF FILE-ID IS "CADCLI.DAT".
         01 REGENT.
@@ -33,10 +33,10 @@
               03 CPFEN2 PIC 999.
               03 CPFEN3 PIC 999.
               03 CPFEN4 PIC 99.
-           02 NOMEEN PIC X (30).
+           02 NOMEEN PIC X(30).
            02 ESTAEN PIC XX.
-           02 CIDAEN PIC X (30).
-           02 EMAILE PIC X (30).
+           02 CIDAEN PIC X(30).
+           02 EMAILE PIC X(30).
            
         SD TRAB.
         01 REGTRA.
@@ -46,55 +46,55 @@
               03 CPFTR2 PIC 999.
               03 CPFTR3 PIC 999.
               03 CPFTR4 PIC 99.
-           02 NOMETR PIC X (30).
+           02 NOMETR PIC X(30).
            02 ESTATR PIC XX.
-           02 CIDATR PIC X (30).
-           02 EMAILT PIC X (30).
+           02 CIDATR PIC X(30).
+           02 EMAILT PIC X(30).
            
         FD RELGER
            LABEL RECORD IS OMITTED.
         01 REGREL PIC X(80).
         
         WORKING-STORAGE SECTION.
-        77 CT-LIN  PIC 99     VALUE 20.
-        77 CT-PAG  PIC 99     VALUE ZEROES.
-        77 FIM-ARQ PIC XXX    VALUE "NAO".
+        77 CT-LIN  PIC 99    VALUE 20.
+        77 CT-PAG  PIC 99    VALUE ZEROES.
+        77 FIM-ARQ PIC XXX   VALUE "NAO".
 
-        77 PREVEST PIC XX     VALUE SPACES.
-        77 PREVCID PIC X (30) VALUE SPACES.
-        77 MUDOUES PIC XXX    VALUE "NAO".
-        77 MUDOUCI PIC XXX    VALUE "NAO".
+        77 PREVEST PIC XX    VALUE SPACES.
+        77 PREVCID PIC X(30) VALUE SPACES.
+        77 MUDOUES PIC XXX   VALUE "NAO".
+        77 MUDOUCI PIC XXX   VALUE "NAO".
         
         01 CAB-01.
-           02 FILLER PIC X (17) VALUE SPACES.
-           02 FILLER PIC X (19) VALUE "RELACAO DE CLIENTES". 
-           02 FILLER PIC X (18) VALUE " POR ESTADO/CIDADE".
-           02 FILLER PIC X (18) VALUE SPACES.
-           02 FILLER PIC X (05) VALUE "PAG. ".
-           02 PAG-OU PIC ZZ9    VALUE ZEROES.
+           02 FILLER PIC X(17) VALUE SPACES.
+           02 FILLER PIC X(19) VALUE "RELACAO DE CLIENTES". 
+           02 FILLER PIC X(18) VALUE " POR ESTADO/CIDADE".
+           02 FILLER PIC X(18) VALUE SPACES.
+           02 FILLER PIC X(05) VALUE "PAG. ".
+           02 PAG-OU PIC ZZ9   VALUE ZEROES.
 
         01 CAB-02.
-           02 FILLER PIC X (08) VALUE "ESTADO: ".
-           02 RELEST PIC X (30) VALUE SPACES.
-           02 FILLER PIC X (42) VALUE SPACES.
+           02 FILLER PIC X(08) VALUE "ESTADO: ".
+           02 RELEST PIC X(30) VALUE SPACES.
+           02 FILLER PIC X(42) VALUE SPACES.
 
         01 CAB-03.
-           02 FILLER PIC X (08) VALUE "CIDADE: ".
-           02 RELCID PIC X (30) VALUE SPACES.
-           02 FILLER PIC X (42) VALUE SPACES.
+           02 FILLER PIC X(08) VALUE "CIDADE: ".
+           02 RELCID PIC X(30) VALUE SPACES.
+           02 FILLER PIC X(42) VALUE SPACES.
 
         01 CAB-04.
-           02 FILLER PIC X (05) VALUE SPACES.
-           02 FILLER PIC XXX    VALUE "CPF".
-           02 FILLER PIC X (06) VALUE SPACES.
+           02 FILLER PIC X(05) VALUE SPACES.
+           02 FILLER PIC XXX   VALUE "CPF".
+           02 FILLER PIC X(06) VALUE SPACES.
+           02 FILLER PIC XXX   VALUE SPACES.
+
+           02 FILLER PIC X(04)  VALUE "NOME".
+           02 FILLER PIC X(26)  VALUE SPACES.
            02 FILLER PIC XXX    VALUE SPACES.
 
-           02 FILLER PIC X (04) VALUE "NOME".
-           02 FILLER PIC X (26) VALUE SPACES.
-           02 FILLER PIC XXX    VALUE SPACES.
-
-           02 FILLER PIC X (05) VALUE "EMAIL".
-           02 FILLER PIC X (25) VALUE SPACES.
+           02 FILLER PIC X(05) VALUE "EMAIL".
+           02 FILLER PIC X(25) VALUE SPACES.
 
         01 DETALHE.
            02 CPFRE1 PIC 999.
@@ -106,19 +106,19 @@
            02 CPFRE4 PIC 99. 
            02 FILLER PIC XXX    VALUE SPACES.
 
-           02 NOMERE PIC X (30) VALUE SPACES.
-           02 FILLER PIC XXX    VALUE SPACES.
+           02 NOMERE PIC X(30) VALUE SPACES.
+           02 FILLER PIC XXX   VALUE SPACES.
 
-           02 EMAILR PIC X (30) VALUE SPACES.
+           02 EMAILR PIC X(30) VALUE SPACES.
 
         PROCEDURE DIVISION.
 
         PGM.
             SORT TRAB
-                 ASCENDING KEY ESTAEN
-                               CIDAEN
-                               CPFEN1 CPFEN2 CPFEN3 CPFEN4
-                 USING ENTRADA
+                 ASCENDING KEY ESTATR
+                               CIDATR
+                               CPFTR1 CPFTR2 CPFTR3 CPFTR4
+                 USING CADCLI
                  OUTPUT PROCEDURE ROTSAIDA        
         STOP RUN.
 
@@ -146,7 +146,7 @@
                 MOVE "SIM"  TO MUDOUES
             END-IF.
             IF PREVCID NOT EQUAL CIDATR THEN
-                MOVE CIDATR TO PREVEST
+                MOVE CIDATR TO PREVCID
                 MOVE CIDATR TO RELCID
                 MOVE "SIM"  TO MUDOUCI
             END-IF.
@@ -181,7 +181,10 @@
 
         IMPDET SECTION.
             PERFORM COPIAVAR.
-            IF MUDOUCI THEN PERFORM IMPCID.
+            IF MUDOUCI IS EQUAL TO "SIM" THEN
+               PERFORM IMPCID
+               MOVE "NAO" TO MUDOUCI
+            END-IF.
             WRITE REGREL FROM DETALHE AFTER ADVANCING 1 LINE.
             ADD 1 TO CT-LIN.
 
@@ -243,4 +246,4 @@
                 MOVE "TOCANTINS"           TO RELEST.
 
         TERMINO SECTION.
-            CLOSE OUTPUT.
+            CLOSE RELGER.
