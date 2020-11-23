@@ -45,7 +45,7 @@
 
             WORKING-STORAGE SECTION.
             77 FIM-ARQ    PIC X(03)       VALUE  "NAO".
-            77 CT-LIN     PIC 99          VALUE     31.
+            77 CT-LIN     PIC 99          VALUE     30.
             77 CT-PAG     PIC 99          VALUE ZEROES.
 
             77 AUXTOT     PIC 99          VALUE ZEROES.
@@ -71,6 +71,9 @@
                02 FILLER PIC X(18) VALUE 
                                        "VALOR DO PAGAMENTO".
                02 FILLER PIC X(13) VALUE             SPACES.
+
+            01 CAB-04.
+               02 FILLER PIC X(80) VALUE             SPACES.
 
             01 DETALHE.
                02 RELNUM PIC 999.999.
@@ -127,7 +130,7 @@
             WRITE CADSOC2.
 
         IMPRESSAO.
-            IF CT-LIN GREATER THAN 30
+            IF CT-LIN GREATER THAN 29
                PERFORM CABECALHO.
             PERFORM IMPDET.
 
@@ -142,6 +145,7 @@
             WRITE REGSOCIO FROM CAB-01 AFTER ADVANCING 1 LINE .
             WRITE REGSOCIO FROM CAB-02 AFTER ADVANCING 2 LINES.
             WRITE REGSOCIO FROM CAB-03 AFTER ADVANCING 2 LINES.
+            WRITE REGSOCIO FROM CAB-04 AFTER ADVANCING 1 LINES.
 
         IMPDET.
             ADD   VALPAG1 TO AUXVAL.
@@ -157,7 +161,7 @@
 
         RODAPE.
             MOVE  AUXVAL   TO   IMPVAL.
-            WRITE REGSOCIO FROM ROD-01 AFTER ADVANCING 1 LINE.
+            WRITE REGSOCIO FROM ROD-01 AFTER ADVANCING 4 LINES.
             WRITE REGSOCIO FROM ROD-02 AFTER ADVANCING 1 LINE.
 
         TERMINO.
