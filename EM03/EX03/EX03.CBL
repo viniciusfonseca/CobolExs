@@ -24,26 +24,27 @@
         DATA DIVISION.
         FILE SECTION.
         
-        FD ENTRADA
+        FD CADENT
            LABEL RECORD IS STANDARD
            VALUE OF FILE-ID IS "CADENT.DAT".
         01 REGENT.
-           02 CODENT PIC X (05).
-           02 NOMEEN PIC X (30).
+           02 CODENT PIC X(05).
+           02 NOMEEN PIC X(30).
            02 DEPENT PIC 99.
            
         SD TRAB.
         01 REGTRAB.
-           02 CODTRA PIC X (05).
-           02 NOMETR PIC X (30).
+           02 CODTRA PIC X(05).
+           02 NOMETR PIC X(30).
            02 DEPTRA PIC 99.
+              88 DEPVAL VALUE 01 02.
            
-        FD SAIDA
+        FD CADSAI
            LABEL RECORD IS STANDARD
            VALUE OF FILE-ID IS "CADSAI.DAT".
         01 REGSAI.
-           02 CODSAI PIC X (05).
-           02 NOMESA PIC X (30).
+           02 CODSAI PIC X(05).
+           02 NOMESA PIC X(30).
         
         WORKING-STORAGE SECTION.
         77 FIM-ARQ PIC XXX VALUE "NAO".
@@ -52,8 +53,8 @@
 
         PGM.
             SORT TRAB
-                 ASCENDING KEY CODTRA
-                 USING ENTRADA
+                 ASCENDING KEY DEPTRA
+                 USING CADENT
                  OUTPUT PROCEDURE ROTSAIDA        
         STOP RUN.
         
@@ -64,7 +65,7 @@
             PERFORM TERMINO.
             
         INICIO SECTION.
-            OPEN OUTPUT SAIDA.
+            OPEN OUTPUT CADSAI.
             PERFORM LESORT.
             
         LESORT SECTION.
@@ -76,9 +77,10 @@
             PERFORM LESORT.
             
         GRAVACAO SECTION.
+            IF NOT DEPVAL THEN EXIT SECTION.
             MOVE CODTRA TO CODSAI.
             MOVE NOMETR TO NOMESA.
             WRITE REGSAI.
             
         TERMINO SECTION.
-            CLOSE SAIDA.
+            CLOSE CADSAI.
