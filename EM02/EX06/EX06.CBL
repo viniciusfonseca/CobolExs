@@ -67,10 +67,11 @@
             77 CT-LIN    PIC 9(02) VALUE 40.
             77 CT-PAG    PIC X(02) VALUE ZEROES.
 
-            77 AUXMULT   PIC 9 OCCURS 9 TIMES.
-            77 AUXMULT2  PIC 9 OCCURS 9 TIMES.
+            77 AUXMULT   PIC 99 OCCURS 10 TIMES.
+            77 AUXMULT2  PIC 99 OCCURS 10 TIMES.
             77 AUXV1     PIC 99.
             77 AUXV2     PIC 99.
+            77 AUXTOM    PIC 99.
 
             77 VERDIG1   PIC 9.
             77 VERDIG2   PIC 9.
@@ -164,11 +165,11 @@
             WRITE IMPCLI FROM CAB-03 AFTER ADVANCING 1 LINE.
             WRITE IMPCLI FROM CAB-04 AFTER ADVANCING 1 LINE.
 
-            MOVE CODCLI TO IMPCOD.
-
         IMPERRO.
+            MOVE CODCLI TO IMPCOD.
             WRITE IMPCLI FROM ERR-LN AFTER ADVANCING 1 LINE.
             MOVE  SPACES TO   IMPCOD.
+            ADD 1 TO CT-LIN.
 
         GRAVACAO.
             MOVE CODCLI  TO CODOK.
@@ -203,26 +204,31 @@
             MOVE 1 TO AUXV1.
             MOVE ZEROES TO AUXCPF.
             PERFORM ACUMULA     10 TIMES.
+            DIVIDE 11 INTO AUXCPF GIVING AUXV2
+                                  REMAINDER AUXCPF.
 
             IF AUXCPF LESS THAN 2
                 MOVE 0 TO VERDIG2
             ELSE SUBTRACT AUXCPF FROM 11 GIVING VERDIG2.
 
             IF VERDIG1 NOT EQUAL V1 OR 
-               VERDIG2 NOT EQUAL V2    THEN
+               VERDIG2 NOT EQUAL V2 THEN
                 MOVE "NAO" TO REGVALIDO
                 MOVE "CPF INVALIDO" TO MSGERR
                 PERFORM IMPRESSAO
             END-IF.
 
         POPULABAIXO.
-            MULTIPLY CPF-D(AUXV1) BY AUXMULT(AUXV2) 
-                                  GIVING AUXMULT2(AUXV1).
+            IF AUXV1 IS EQUAL TO 10 THEN MOVE VERDIG1 TO AUXTOM
+            ELSE MOVE CPF-D(AUXV1) TO AUXTOM.
+            MULTIPLY AUXTOM BY AUXMULT(AUXV2) 
+                            GIVING AUXMULT2(AUXV1).
             ADD 1 TO AUXV1.
             ADD 1 TO AUXV2.
         
         ACUMULA.
             ADD AUXMULT2(AUXV1) TO AUXCPF.
+            ADD 1 TO AUXV1.
 
         VALIDANOM.
             IF NOMEINV THEN 
