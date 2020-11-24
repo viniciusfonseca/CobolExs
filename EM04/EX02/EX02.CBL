@@ -1,0 +1,217 @@
+        IDENTIFICATION DIVISION.
+        PROGRAM-ID. EM04EX02.
+        AUTHOR. VINICIUS ALVES.
+        INSTALLATION. FATEC-SP.
+        DATE-WRITTEN. 24/11/2020.
+        DATE-COMPILED.
+        SECURITY. ONLY AUTHOR MAY MODIFY.
+      * REMARKS.
+
+        ENVIRONMENT DIVISION.
+        CONFIGURATION SECTION.
+            SOURCE-COMPUTER. IBM-PC.
+            OBJECT-COMPUTER. IBM-PC.
+            SPECIAL-NAMES. DECIMAL-POINT IS COMMA.
+
+        INPUT-OUTPUT SECTION.
+        FILE-CONTROL.
+            SELECT ARQMOV ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT CADANT ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT CADATU ASSIGN TO DISK
+            ORGANIZATION IS LINE SEQUENTIAL.
+            SELECT RELOCORR ASSIGN TO DISK.
+
+        DATA DIVISION.
+        FILE SECTION.
+        FD ARQMOV
+           LABEL RECORD IS STANDARD
+           VALUE OF FILE-ID IS "ARQMOV.DAT".
+        01 REGMOV.
+           02 CC-MOV    PIC 9(03).
+           02 TIPO-MOV  PIC X.
+           02 ENDER-MOV PIC X(50).
+        
+        FD CADANT
+           LABEL RECORD IS STANDARD
+           VALUE OF FILE-ID IS "CADANT.DAT".
+        01 REGANT.
+           02 CC-ANT    PIC 9(03).
+           02 TIPO-ANT  PIC X.
+           02 ENDER-ANT PIC X(50).
+
+        FD CADATU
+           LABEL RECORD IS STANDARD
+           VALUE OF FILE-ID IS "CADATU.DAT".
+        01 REGATU.
+           02 CC-ATU    PIC 9(03).
+           02 TIPO-ATU  PIC X.
+           02 ENDER-ATU PIC X(50).
+
+        FD RELOCORR
+           LABEL RECORD IS OMITTED.
+        01 RELREG PIC X(80).
+
+        WORKING-STORAGE SECTION.
+        77 FIM-ARQ PIC X(03) VALUE "NAO".
+        77 CH-MOV  PIC X(03) VALUE SPACES.
+        77 CH-ANT  PIC X(03) VALUE SPACES.
+
+        77 CT-LIN  PIC 99  VALUE 40.
+        77 CT-PAG  PIC 999 VALUE ZEROES.
+
+        01 CAB-01.
+           02 FILLER PIC X(25) VALUE SPACES.
+           02 FILLER PIC X(22) VALUE "RELACAO DE ATUALIZACAO".
+           02 FILLER PIC X(25) VALUE SPACES.
+           02 FILLER PIC X(05) VALUE "PAG. ".
+           02 PAG-P  PIC ZZ9.
+
+        01 CAB-02.
+           02 FILLER PIC XX VALUE SPACES.
+           02 FILLER PIC X(06) VALUE "CODIGO".
+           02 FILLER PIC XX VALUE SPACES.
+
+           02 FILLER PIC XX VALUE SPACES.
+           02 FILLER PIC X(04) VALUE "TIPO".
+           02 FILLER PIC XX VALUE SPACES.
+
+           02 FILLER PIC XX VALUE SPACES.
+           02 FILLER PIC X(08) VALUE "MENSAGEM".
+           02 FILLER PIC X(22) VALUE SPACES.
+           02 FILLER PIC XX VALUE SPACES.
+
+        01 DETALHE.
+
+           02 FILLER   PIC XX VALUE SPACES.
+           02 COD-REL  PIC X(03).
+           02 FILLER   PIC X(03).
+           02 FILLER   PIC XX VALUE SPACES.
+
+           02 FILLER   PIC XX VALUE SPACES.
+           02 TIPO-REL PIC X.
+           02 FILLER   PIC X(03) VALUE SPACES.
+           02 FILLER   PIC XX VALUE SPACES.
+
+           02 FILLER   PIC XX VALUE SPACES.
+           02 MSG-REL  PIC X(30).
+           02 FILLER   PIC XX VALUE SPACES.
+
+        PROCEDURE DIVISION.
+        PGM.
+            PERFORM INICIO.
+            PERFORM PRINCIPAL UNTIL 
+                   CH-MOV EQUAL CH-ANT
+               AND CH-ANT EQUAL HIGH-VALUES.
+            PERFORM TERMINO.
+            STOP RUN.
+
+        INICIO.
+            OPEN INPUT ARQMOV CADANT
+                 OUTPUT RELOCORR CADATU.
+            PERFORM LER-MOV.
+            PERFORM LER-ANT.
+
+        LER-MOV.
+            READ ARQMOV AT END MOVE HIGH-VALUES TO CH-MOV.
+            IF CH-MOV IS NOT EQUAL TO HIGH-VALUES THEN
+               MOVE CC-MOV TO CH-MOV.
+
+        LER-ANT.
+            READ CADANT AT END MOVE HIGH-VALUES TO CH-ANT.
+            IF CH-ANT IS NOT EQUAL TO HIGH-VALUES THEN
+               MOVE CC-ANT TO CH-ANT.
+
+        PRINCIPAL.
+            IF CH-MOV IS EQUAL TO CH-ANT
+               PERFORM IGUAL
+               PERFORM LER-MOV
+               PERFORM LER-ANT
+            ELSE
+            IF CH-MOV IS LESS THAN CH-ANT
+               PERFORM MOV-MENOR
+               PERFORM LER-MOV
+            ELSE
+               PERFORM ANT-MENOR
+               PERFORM LER-ANT.
+
+        COPIAMOVTOREL.
+            MOVE CC-MOV TO COD-REL.
+            MOVE TIPO-MOV TO TIPO-REL.
+
+        IGUAL.
+            IF TIPO-MOV EQUAL "I"
+                MOVE "INCLUSAO P/ REG. JA EXISTENTE" TO MSG-REL
+                PERFORM COPIAMOVTOREL
+                PERFORM IMPRESSAO
+                PERFORM GRAVA-ANT
+            ELSE
+            IF TIPO-MOV EQUAL "E"
+                MOVE "REGISTRO EXCLUIDO"             TO MSG-REL
+                PERFORM COPIAMOVTOREL
+                PERFORM IMPRESSAO
+            ELSE
+            IF TIPO-MOV EQUAL "A"
+                MOVE "REGISTRO SUBSTITUIDO"          TO MSG-REL
+                MOVE CC-ANT TO COD-REL
+                MOVE TIPO-ANT TO TIPO-REL
+                PERFORM IMPRESSAO
+                MOVE "REGISTRO SUBSTITUDO"           TO MSG-REL
+                PERFORM COPIAMOVTOREL
+                PERFORM IMPRESSAO
+                PERFORM GRAVA-MOV.
+
+        MOV-MENOR.
+            IF TIPO-MOV EQUAL "I"
+                MOVE "REGISTRO INCLUIDO"             TO MSG-REL
+                PERFORM COPIAMOVTOREL
+                PERFORM IMPRESSAO
+                PERFORM GRAVA-MOV
+            ELSE
+            IF TIPO-MOV EQUAL "E"
+                MOVE "EXCLUSAO P/ REG. INEXISTENTE"  TO MSG-REL
+                PERFORM COPIAMOVTOREL
+                PERFORM IMPRESSAO
+            ELSE
+            IF TIPO-MOV EQUAL "A"
+                MOVE "ALTERACAO P/ REG. INEXISTENTE" TO MSG-REL
+                PERFORM COPIAMOVTOREL
+                PERFORM IMPRESSAO.
+
+        ANT-MENOR.
+            PERFORM GRAVA-ANT.
+
+        GRAVA-ANT.
+            MOVE CC-ANT    TO CC-ATU.
+            MOVE TIPO-ANT  TO TIPO-ATU.
+            MOVE ENDER-ANT TO ENDER-ATU.
+            WRITE REGATU.
+        
+        GRAVA-MOV.
+            MOVE CC-MOV    TO CC-ATU.
+            MOVE TIPO-MOV  TO TIPO-ATU.
+            MOVE ENDER-MOV TO ENDER-ATU.
+            WRITE REGATU.
+
+        IMPRESSAO.
+            IF CT-LIN GREATER THAN 39 THEN PERFORM CABECALHO.
+            PERFORM IMPDETALHE.
+            
+        IMPDETALHE.
+            ADD 1 TO CT-LIN.
+            WRITE RELREG FROM DETALHE AFTER ADVANCING 1 LINE.
+
+        CABECALHO.
+            MOVE ZEROES TO CT-LIN.
+            ADD 1 TO CT-PAG.
+            MOVE CT-PAG TO PAG-P.
+
+            WRITE RELREG AFTER ADVANCING PAGE.
+            WRITE RELREG FROM CAB-01 AFTER ADVANCING 1 LINE.
+            WRITE RELREG FROM CAB-02 AFTER ADVANCING 2 LINES.
+
+        TERMINO.
+            CLOSE ARQMOV
+                  CADANT
+                  CADATU.

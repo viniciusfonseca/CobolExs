@@ -1,0 +1,11 @@
+                                                                                
+                         RELACAO DE ATUALIZACAO                         PAG.   1
+
+  CODIGO    TIPO    MENSAGEM                                                    
+  001       I       REGISTRO INCLUIDO                                           
+  002       C       REGISTRO SUBSTITUIDO                                        
+  002       A       REGISTRO SUBSTITUDO                                         
+  005       E       REGISTRO EXCLUIDO                                           
+  007       I       INCLUSAO P/ REG. JA EXISTENTE                               
+  010       A       ALTERACAO P/ REG. INEXISTENTE                               
+  011       E       EXCLUSAO P/ REG. INEXISTENTE                                
