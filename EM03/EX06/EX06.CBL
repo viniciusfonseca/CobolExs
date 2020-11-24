@@ -256,7 +256,6 @@
         VERIFICASEC SECTION.
             MOVE "NAO" TO MUDOUSEC.
             IF CODSECTRA NOT EQUAL TO PREVSEC THEN
-            *>    DISPLAY PREVSEC " --> " CODSECTRA
                MOVE CODSECTRA TO PREVSEC
                MOVE "SIM" TO MUDOUSEC
             END-IF.

@@ -1,0 +1,10 @@
+                                                                                
+                             RELACAO DE MERCADORIAS                     PAG.   1
+
+                              ERROS DE ATUALIZACAO                              
+
+  CODIGO    DESCRICAO                         MENSAGEM                          
+                                                                                
+  007       DISCO DE FREIO                    INCLUSAO DE REG. JA EXISTENTE     
+  010       DISCO DE FREIO                    ALTERACAO DE REG. NAO EXISTENT    
+  011       DISCO DE FREIO                    EXCLUSAO DE REG. NAO EXISTENTE    
