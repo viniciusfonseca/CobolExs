@@ -1,6 +1,8 @@
 # Portfólio de Programas em COBOL
 
-Este repositório reune todos os programas escritos na minha época da faculdade (2016). Todos estão testados e os bugs mais sérios foram corrigidos recentemente (2020).
+Este repositório reune todos os programas escritos na minha época da faculdade (2016).
+
+São ao todo 24 programas. Cada pasta EM0* contém um conjunto de exercícios representando um trabalho a ser entregue. Todos estão testados e os bugs mais sérios foram corrigidos recentemente (2020).
 
 Os programas aplicam desde conceitos básicos até avançados: geração de relatórios, paginação, balance-line, validação de dados.
 
